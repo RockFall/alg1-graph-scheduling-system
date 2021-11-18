@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include <vector>
-#include "src/ScheduleSystem/ScheduleSystem.h"
+#include "ScheduleSystem.h"
 
 int main()
 {

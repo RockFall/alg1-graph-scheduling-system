@@ -3,7 +3,6 @@
 #include <map>
 #include <iostream>
 
-
 class ScheduleSystem {
 public:
 	//std::map<int, Client> clients;
@@ -14,5 +13,4 @@ public:
 	~ScheduleSystem();
 
 	void Populate();
-
 };

@@ -2,24 +2,25 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "cppbuild",
-			"label": "C/C++: g++.exe arquivo de build ativo",
-			"command": "C:/mingw-w64/mingw64/bin/g++.exe",
+			"type": "shell",
+			"label": "g++ build active file - WSL",
+			"command": "/usr/bin/g++",
 			"args": [
-				"-fdiagnostics-color=always",
 				"-g",
-				"${file}",
+				"${workspaceFolder}/*.cpp",
 				"-o",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe"
+				"${workspaceFolder}/${fileBasenameNoExtension}"
 			],
 			"options": {
-				"cwd": "C:/mingw-w64/mingw64/bin"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [
 				"$gcc"
 			],
-			"group": "build",
-			"detail": "compilador: C:/mingw-w64/mingw64/bin/g++.exe"
+			"group": {
+				"kind": "build",
+        "isDefault": true
+			}
 		}
 	]
 }
