@@ -1,9 +1,8 @@
 #pragma once
 
 #include <map>
+#include <iostream>
 
-class Client;
-class Store;
 
 class ScheduleSystem {
 public:

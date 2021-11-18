@@ -1,10 +1,13 @@
-#include "main.h"
-
 #include <iostream>
 
-int main() {
+#include <vector>
+#include "src/ScheduleSystem/ScheduleSystem.h"
 
-  std::cout << "Hello" << std::endl;
+int main()
+{
+	ScheduleSystem system;
+
+	system.Populate();
 
   return 0;
 }
