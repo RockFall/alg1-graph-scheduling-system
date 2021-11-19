@@ -10,7 +10,7 @@ LDFLAGS =
 # Makefile settings - Can be customized.
 APPNAME = schedule-system
 EXT = .cpp
-SRCDIR = /home/rockfall/projects/matching--scheduling-system/ScheduleSystem
+SRCDIR = /home/rockfall/projects/matching--scheduling-system/ScheduleSystem/src
 OBJDIR = obj
 
 ############## Do not change anything from here downwards! #############
