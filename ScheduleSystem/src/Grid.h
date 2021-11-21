@@ -10,11 +10,9 @@ public:
   Grid(int w, int h);
   ~Grid() { };
 
-  int dijkstra(const std::vector<std::vector<int>> &graph, Vector2 source, Vector2 target);
-
-
+  int Dijkstra(Vector2 source, Vector2 target) const;
+  bool isValidPosition(Vector2 pos) const;
   void CreateGraph();
-  std::vector<int> GetAllDistancesFromVector();
 
 private:
   // Graph of a grid -> A vector representing each tile and holds a vector of it's neighbours
@@ -22,5 +20,5 @@ private:
   int width_;
   int height_;
 
-  int getId(Vector2 v);
+  int getId(Vector2 v) const;
 };
