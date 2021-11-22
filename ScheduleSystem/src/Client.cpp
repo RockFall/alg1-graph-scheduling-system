@@ -58,3 +58,11 @@ float Client::getTicketValue() const
   else
     return -1;
 }
+
+Vector2 Client::getPosition() const {
+  return this->position_;
+}
+
+int Client::getId() const {
+  return this->id_;
+}

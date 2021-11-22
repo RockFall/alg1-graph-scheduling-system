@@ -2,22 +2,43 @@
 
 #include <vector>
 #include <iostream>
+#include <unordered_map>
 #include <set>
 
-Grid::Grid(int h, int w) : width_(w), height_(h)
+Grid::Grid() : width_(0), height_(0)
 {
-  gridGraph_ = std::vector<std::vector<int>>(w*h, std::vector<int>());
+  gridGraph_ = std::vector<std::vector<int>>(0, std::vector<int>());
+}
+
+Grid::Grid(int h, int w) : width_(w+1), height_(h+1)
+{
+  gridGraph_ = std::vector<std::vector<int>>(width_*height_, std::vector<int>());
   CreateGraph();
 }
 
 int INT_MAX = 2147483647;
-int Grid::Dijkstra(Vector2 sourceVec, Vector2 targetVec) const {
-  if (!isValidPosition(sourceVec) || !isValidPosition(targetVec)){
-    return -1;
+std::vector<int> Grid::Dijkstra(Vector2 sourceVec, std::vector<Vector2> targets) const {
+  // Holds the minimun distance found to each target
+  std::vector<int> distanceToTargets = std::vector<int>(targets.size());
+  // Holds all targets yet to find
+  std::unordered_map<int, std::vector<int>> targetToFind;
+  // Conversion from Vector2 to Grig graph vertex id
+  int source = getId(sourceVec);
+
+  // CHECKS IF ALL VECTORS HAVE VALID POSITION ON GRID
+  if (!isValidPosition(sourceVec)){
+    return std::vector<int>();
+  } else {
+    for (int i = 0; i < targets.size(); i++)
+    {
+      if (!isValidPosition(targets[i])){
+        return std::vector<int>();
+      }
+      // Inserts all targets to 'targetToFind' <gridId, realId>
+      targetToFind[getId(targets[i])].push_back(i);
+    }
   }
 
-  int source = getId(sourceVec);
-  int target = getId(targetVec);
   // Holds the min distance from source to each vertice
   std::vector<int> min_distance(gridGraph_.size(), INT_MAX);
   min_distance[source] = 0;
@@ -25,14 +46,23 @@ int Grid::Dijkstra(Vector2 sourceVec, Vector2 targetVec) const {
   std::set<std::pair<int, int>> active_vertices;
   active_vertices.insert({0, source});
 
-  while (!active_vertices.empty())
+  while (!active_vertices.empty() && !targetToFind.empty())
   {
     // Gets first node on set
     int where = active_vertices.begin()->second;
 
-    if (where == target) {
+
+
+    if (targetToFind.find(where) != targetToFind.end()) {
+      for (auto t : targetToFind[where]){
+        distanceToTargets[t] = min_distance[where] - 1;
+      }
+      targetToFind.erase(where);
+      if (targetToFind.empty()){
+        return distanceToTargets;
+      }
+      /* PRINT ALL TILES OF GRID
       int count = 0;
-      /*
       for (auto vertex : min_distance)
       {
         if (count == width_) {
@@ -44,7 +74,6 @@ int Grid::Dijkstra(Vector2 sourceVec, Vector2 targetVec) const {
       }
       std::cout << "\n------------------------" << std::endl;
       */
-      return min_distance[where] - 1;
     }
 
     active_vertices.erase(active_vertices.begin());
@@ -59,7 +88,7 @@ int Grid::Dijkstra(Vector2 sourceVec, Vector2 targetVec) const {
     }
   }
 
-  return INT_MAX;
+  return distanceToTargets;
 }
 
 bool Grid::isValidPosition(Vector2 pos) const
@@ -74,7 +103,6 @@ void Grid::CreateGraph()
   {
     for (int y = 0; y < width_; y++)
     {
-
       bool bottom, top;
       bottom = top = true;
 

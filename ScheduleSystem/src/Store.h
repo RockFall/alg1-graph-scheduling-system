@@ -7,6 +7,10 @@ public:
   Store(int id, int maxCap, Vector2 pos);
   ~Store();
 
+  Vector2 getPosition() const;
+  int getCapacity() const;
+  int getId() const;
+
 private:
   int id_;
   int maxCapacity_;

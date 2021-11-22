@@ -27,16 +27,23 @@ enum class Payment
   INVALID = -1
 };
 
+//
 class Client {
 public:
+  // CONSTRUCTOR
   Client(int id, int age, std::string state, std::string paymentType, Vector2 pos);
   ~Client();
-
+  // Calculates the ticket for this Client
   float getTicketValue() const;
+  Vector2 getPosition() const;
+  int getId() const;
 
+  // Turns Client into string for debugging
   operator std::string() const {
     return "Client " + std::to_string(id_) + ": {ticket=" + std::to_string(getTicketValue()) + ", position=" + std::string(position_) + "}";
   }
+  // Override of '<' for sorting based on
+  // Bigger Ticket, then smaller id
 
 private:
   int id_;

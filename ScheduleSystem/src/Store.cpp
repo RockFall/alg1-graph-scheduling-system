@@ -10,3 +10,15 @@ Store::~Store()
 {
 
 }
+
+Vector2 Store::getPosition() const {
+  return this->position_;
+}
+
+int Store::getId() const {
+  return this->id_;
+}
+
+int Store::getCapacity() const {
+  return this->maxCapacity_;
+}

@@ -7,10 +7,11 @@
 class Grid
 {
 public:
+  Grid();
   Grid(int w, int h);
   ~Grid() { };
 
-  int Dijkstra(Vector2 source, Vector2 target) const;
+  std::vector<int> Dijkstra(Vector2 source, std::vector<Vector2> targets) const;
   bool isValidPosition(Vector2 pos) const;
   void CreateGraph();
 
