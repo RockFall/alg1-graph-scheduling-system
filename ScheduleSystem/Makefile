@@ -8,9 +8,10 @@ CXXFLAGS = -std=c++11 -Wall
 LDFLAGS =
 
 # Makefile settings - Can be customized.
-APPNAME = schedule-system
+APPNAME = tp01
 EXT = .cpp
-SRCDIR = /home/rockfall/projects/matching--scheduling-system/ScheduleSystem/src
+CURRENT_DIR := $(shell pwd)
+SRCDIR = ${CURRENT_DIR}
 OBJDIR = obj
 
 ############## Do not change anything from here downwards! #############

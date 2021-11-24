@@ -1,20 +1,21 @@
 #include "ScheduleSystem.h"
 
 #include <algorithm>
+#include <cmath>
+#include <chrono>
 
-ScheduleSystem::ScheduleSystem() : clients(), stores(), grid()
+ScheduleSystem::ScheduleSystem() : clients(), stores()
 {
 }
 
-ScheduleSystem::ScheduleSystem(Grid g) : clients(), stores(), grid(g)
-{
-}
+//ScheduleSystem::ScheduleSystem(Grid g) : clients(), stores(), grid(g)
+//{ }
 
 ScheduleSystem::~ScheduleSystem()
 {
 }
 
-void ScheduleSystem::Populate()
+void ScheduleSystem::PopulateFromInput()
 {
 	// Variables that will get data from input
 	// to the creation of stores and clients
@@ -23,8 +24,6 @@ void ScheduleSystem::Populate()
 
 	// First 2 variables -> grid size (X, Y)
 	std::cin >> x >> y;
-
-	this->grid = Grid(x, y);
 
 	// ---- STORES ----
 	id = 0;
@@ -65,7 +64,10 @@ Client ScheduleSystem::getClient(int id) const {
 }
 
 std::string ScheduleSystem::GetScheduling() const{
+	// Get scheduling from algorithm
 	std::vector<std::unordered_set<int>> schedule = StartScheduling();
+
+	// Generates an output string
 	std::string result = "";
 	for (int i = 0; i < schedule.size(); i++)
 	{
@@ -76,9 +78,9 @@ std::string ScheduleSystem::GetScheduling() const{
 		SortClientIDsByTicket(clientsV);
 
 		result += std::to_string(clientsV[0]);
-		for (int i = 1; i < clientsV.size(); i++)
+		for (int j = 1; j < clientsV.size(); j++)
 		{
-			result += " " + std::to_string(clientsV[i]);
+			result += " " + std::to_string(clientsV[j]);
 		}
 		result += "\n";
 	}
@@ -88,31 +90,11 @@ std::string ScheduleSystem::GetScheduling() const{
 
 std::vector<std::unordered_set<int>> ScheduleSystem::StartScheduling() const
 {
-	 // Get all client Vector2's
-	std::vector<Vector2> clientVectors;
-	for (const auto& client : clients){
-		clientVectors.push_back(client.getPosition());
-	}
-	// Calculates the distance from each store to all clients - complexity O(CxS)
-	// 'clientsPref[x]' gives a vector of distances from Client x to each Store,
-	// 'clientsPref[x][y]' gives the distance from Client x to Store y
-	std::vector<std::vector<int>> clientsDist(clients.size(), std::vector<int>(stores.size()));
-	for (int s = 0; s < stores.size(); s++)
-	{
-		std::vector<int> storeDistances = this->grid.Dijkstra(stores[s].getPosition(), clientVectors);
-		if (storeDistances.size() == 0) {
-			std::cout << "Error on some vector inputed" << std::endl;
-			return std::vector<std::unordered_set<int>>(0, std::unordered_set<int>());
-		}
-		for (int c = 0; c < storeDistances.size(); c++)
-		{
-			clientsDist[c][s] = storeDistances[c];
-		}
-	}
-
 	std::vector<Client> clientsVec = clients;
+	// Sort all clients by it's Ticket using the ID as tie-breaker
 	SortClientsByTicket(clientsVec);
-	return Scheduler::Schedule(clientsDist, clientsVec, stores);
+	// Starts Scheduling
+	return Scheduler::FindBestSchedule(clientsVec, stores);
 }
 
 void ScheduleSystem::SortClientsByTicket(std::vector<Client>& clientsVec) const {

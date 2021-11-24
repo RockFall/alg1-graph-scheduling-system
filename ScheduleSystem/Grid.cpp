@@ -50,9 +50,6 @@ std::vector<int> Grid::Dijkstra(Vector2 sourceVec, std::vector<Vector2> targets)
   {
     // Gets first node on set
     int where = active_vertices.begin()->second;
-
-
-
     if (targetToFind.find(where) != targetToFind.end()) {
       for (auto t : targetToFind[where]){
         distanceToTargets[t] = min_distance[where] - 1;
@@ -61,19 +58,6 @@ std::vector<int> Grid::Dijkstra(Vector2 sourceVec, std::vector<Vector2> targets)
       if (targetToFind.empty()){
         return distanceToTargets;
       }
-      /* PRINT ALL TILES OF GRID
-      int count = 0;
-      for (auto vertex : min_distance)
-      {
-        if (count == width_) {
-          std::cout << std::endl;
-          count = 0;
-        }
-        std::cout << vertex << " ";
-        count++;
-      }
-      std::cout << "\n------------------------" << std::endl;
-      */
     }
 
     active_vertices.erase(active_vertices.begin());

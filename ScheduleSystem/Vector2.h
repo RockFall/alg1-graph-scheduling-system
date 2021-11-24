@@ -17,6 +17,9 @@ public:
   // Returns the euclidian distance between two vectors
   int distance_to(const Vector2& vector2) const;
 
+  // Returns Chebyshev's distance
+  int grid_distance_to(const Vector2 &vector2) const;
+
   // Operators override
   int &operator[](int index) {
 		return index ? y : x;
@@ -25,7 +28,6 @@ public:
   {
     return index ? y : x;
   };
-
   operator std::string() const {
     return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
   }

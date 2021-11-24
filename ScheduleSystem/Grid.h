@@ -12,8 +12,6 @@ public:
   ~Grid() { };
 
   std::vector<int> Dijkstra(Vector2 source, std::vector<Vector2> targets) const;
-  bool isValidPosition(Vector2 pos) const;
-  void CreateGraph();
 
 private:
   // Graph of a grid -> A vector representing each tile and holds a vector of it's neighbours
@@ -22,4 +20,6 @@ private:
   int height_;
 
   int getId(Vector2 v) const;
+  bool isValidPosition(Vector2 pos) const;
+  void CreateGraph();
 };
